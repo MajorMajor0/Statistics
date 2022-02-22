@@ -10,7 +10,7 @@ public class Context : DbContext
 		DbContextOptionsBuilder optionsBuilder)
 	{
 		optionsBuilder.UseSqlite(
-			"Data Source=cdc.db");
+			$"Data Source={FileLocations.CDC}");
 
 		optionsBuilder.UseLazyLoadingProxies();
 		base.OnConfiguring(optionsBuilder);

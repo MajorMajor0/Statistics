@@ -7,8 +7,8 @@
 		mc:Ignorable="d"
 		Title="MainWindow"
 		Height="450"
-		Width="1200
-		">
+		Width="1300"
+		Background="black">
 	<Window.DataContext>
 		<local:MainWindowVM />
 	</Window.DataContext>
@@ -16,6 +16,8 @@
 		<BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
 		<Style x:Key="CButtonStyle"
 			   TargetType="Button">
+			<Setter Property="FontFamily"
+					Value="Consolas" />
 			<Setter Property="Content"
 					Value="{Binding Command.Content, RelativeSource={RelativeSource Self}}" />
 			<Setter Property="ToolTip"
@@ -48,23 +50,70 @@
 	</Window.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="150" />
-			<ColumnDefinition />
+			<ColumnDefinition Width="125" />
+			<ColumnDefinition Width="125" />
+			<ColumnDefinition Width="Auto"/>
 		</Grid.ColumnDefinitions>
 		<ListBox ItemsSource="{Binding Commands}"
-				 BorderThickness="0">
+				 BorderThickness="0"
+				 Background="Gray">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<Button Style="{StaticResource CButtonStyle}"
-							Command="{Binding}"
-							Width="100" />
+					<Grid Height="30">
+						<Button Style="{StaticResource CButtonStyle}"
+								Command="{Binding}"
+								Width="100"
+								Height="25"
+								Background="LightGray" />
+					</Grid>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
 		<TextBlock Text="{Binding Display}"
-				   Grid.Column="1" 
-				   FontFamily="Consolas
-				   "/>
+				   Grid.Column="2"
+				   FontFamily="Consolas"
+				   HorizontalAlignment="Center"
+				   VerticalAlignment="top"
+				   Margin="30"
+				   Foreground="PaleGoldenrod" />
+		<Border Background="Gray"
+				Grid.Column="1">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="35" />
+					<RowDefinition Height="35" />
+					<RowDefinition Height="35" />
+					<RowDefinition Height="35" />
+				</Grid.RowDefinitions>
+				<DockPanel Grid.Row="2"
+						   Background="Transparent"
+						   LastChildFill="False">
+					<ComboBox ItemsSource="{Binding States}"
+							  SelectedItem="{Binding State0}"
+							  Height="25"
+							  Width="50"
+							  DockPanel.Dock="Left">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Abbreviation}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+					<ComboBox ItemsSource="{Binding States}"
+							  SelectedItem="{Binding State1}"
+							  Height="25"
+							  Width="50"
+							  DockPanel.Dock="Left" Margin="10,0,0,0">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Abbreviation}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</DockPanel>
+			</Grid>
+			
+		</Border>
 
 	</Grid>
 </Window>

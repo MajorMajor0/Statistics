@@ -20,7 +20,7 @@ public class Context : DbContext
 		DbContextOptionsBuilder optionsBuilder)
 	{
 		optionsBuilder.UseSqlite(
-			"Data Source=fbi.db");
+			$"Data Source={FileLocations.FBI}");
 
 		optionsBuilder.UseLazyLoadingProxies();
 		base.OnConfiguring(optionsBuilder);

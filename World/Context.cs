@@ -14,7 +14,7 @@ public class Context : DbContext
 		DbContextOptionsBuilder optionsBuilder)
 	{
 		optionsBuilder.UseSqlite(
-			@"Data Source=C:\data\world.db");
+			$"Data Source={FileLocations.World}");
 
 		optionsBuilder.UseLazyLoadingProxies();
 		base.OnConfiguring(optionsBuilder);

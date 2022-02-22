@@ -37,10 +37,10 @@ public class Corona
 	private static readonly string resource = "9bhg-hcku";
 
 	/// <summary>
-	/// Wipes coronavirus deaths from teh database and pulls the lates from the CDC to replace it.
+	/// Wipes coronavirus deaths from the database and pulls the lates from the CDC to replace it.
 	/// tryies to check whether the new data is at least apparently good before wiping the database.	/// </summary>
 	/// <returns>Returns true if successfull, false if unsuccessfull</returns>
-	internal static async Task<bool> Update()
+	internal static void Update()
 	{
 		string message;
 		string caption;
@@ -73,14 +73,14 @@ public class Corona
 				MessageBoxResult result = MessageBox.Show(message, caption, MessageBoxButton.YesNo);
 				if (result == MessageBoxResult.No)
 				{
-					return false;
+					return;
 				}
 			}
 
 			context.Coronas.AddRange(coronas);
 
 			// Throws dbupdate exception
-			int changes = await context.SaveChangesAsync();
+			int changes = context.SaveChanges();
 
 			// Report to user
 			message = $"{changes} corona data rows saved to database.";
@@ -107,7 +107,7 @@ public class Corona
 			MessageBox.Show(message, caption, MessageBoxButton.OK);
 		}
 
-		return true;
+		return;
 	}
 
 	internal static long GetDeathCount(US.State state, AgeGroup ageGroup, Context context)
