@@ -110,17 +110,45 @@ public class Corona
 		return;
 	}
 
+	/// <summary>
+	/// Returns a death count filtered by the parameters
+	/// </summary>
+	/// <param name="state">US.State or null. If null, returns entire US</param>
+	/// <param name="ageGroup">CDC.agegroup for filtering</param>
+	/// <param name="context">CDC.Context</param>
+	/// <returns>Returns a total death count for the given parameters</returns>
 	internal static long GetDeathCount(US.State state, AgeGroup ageGroup, Context context)
 	{
+		string stateName = state?.Name ?? "United States";
+
+		if (ageGroup == CDC.AgeGroup.Age0_4)
+		{
+			return GetDeathCount(state, CDC.AgeGroup.Age0_1, context) +
+			 GetDeathCount(state, CDC.AgeGroup.Age1_4, context);
+		}
+
 		var deaths = context
 			.Coronas
-			.Where(x => x.State == state.Name)
+			.Where(x => x.State == stateName)
 			.Where(x => x.AgeGroup == ageGroup.Description())
 			.Where(x => x.StartDate == new DateTime(2020, 01, 01))
 			.Where(x => x.EndDate == new DateTime(2022, 02, 12))
 			.Where(x => x.Group == "By Total")
-			.Where(x=>x.Sex == "All Sexes")
+			.Where(x => x.Sex == "All Sexes")
 			.Sum(x => x.CovidDeaths);
+
+		if(state == US.UnitedStates.NewYork)
+		{
+			deaths += context
+			.Coronas
+			.Where(x => x.State == "New York City")
+			.Where(x => x.AgeGroup == ageGroup.Description())
+			.Where(x => x.StartDate == new DateTime(2020, 01, 01))
+			.Where(x => x.EndDate == new DateTime(2022, 02, 12))
+			.Where(x => x.Group == "By Total")
+			.Where(x => x.Sex == "All Sexes")
+			.Sum(x => x.CovidDeaths);
+		}
 
 		return deaths;
 	}

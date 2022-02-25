@@ -26,7 +26,7 @@ public class Context : DbContext
 		base.OnConfiguring(optionsBuilder);
 	}
 
-	public static async Task<bool> Load()
+	public static void Load()
 	{
 		Region.Load();
 		Division.Load();
@@ -74,7 +74,7 @@ public class Context : DbContext
 			MessageBoxResult mbr = MessageBox.Show(ex.Message, "Error", MessageBoxButton.YesNo);
 			if (mbr is MessageBoxResult.No)
 			{
-				return false;
+				return;
 			}
 
 		}
@@ -89,10 +89,10 @@ public class Context : DbContext
 
 		//}
 
-		void ParseAdminSegment(string line)
-		{
-		}
+		//void ParseAdminSegment(string line)
+		//{
+		//}
 
-		return true;
+		return;
 	}
 }

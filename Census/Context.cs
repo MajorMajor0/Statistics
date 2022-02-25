@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Statistics.Census
 {
-	public partial class Context : DbContext
+    public partial class Context : DbContext
     {
         public Context()
         {
@@ -14,37 +17,9 @@ namespace Statistics.Census
         }
 
         public virtual DbSet<cbg_b01> cbg_b01 { get; set; }
-        public virtual DbSet<cbg_b02> cbg_b02 { get; set; }
-        public virtual DbSet<cbg_b03> cbg_b03 { get; set; }
-        public virtual DbSet<cbg_b07> cbg_b07 { get; set; }
-        public virtual DbSet<cbg_b08> cbg_b08 { get; set; }
-        public virtual DbSet<cbg_b09> cbg_b09 { get; set; }
-        public virtual DbSet<cbg_b11> cbg_b11 { get; set; }
-        public virtual DbSet<cbg_b12> cbg_b12 { get; set; }
-        public virtual DbSet<cbg_b14> cbg_b14 { get; set; }
-        public virtual DbSet<cbg_b15> cbg_b15 { get; set; }
-        public virtual DbSet<cbg_b16> cbg_b16 { get; set; }
-        public virtual DbSet<cbg_b17> cbg_b17 { get; set; }
-        public virtual DbSet<cbg_b19> cbg_b19 { get; set; }
-        public virtual DbSet<cbg_b20> cbg_b20 { get; set; }
-        public virtual DbSet<cbg_b21> cbg_b21 { get; set; }
-        public virtual DbSet<cbg_b22> cbg_b22 { get; set; }
-        public virtual DbSet<cbg_b23> cbg_b23 { get; set; }
-        public virtual DbSet<cbg_b24> cbg_b24 { get; set; }
-        public virtual DbSet<cbg_b25> cbg_b25 { get; set; }
-        public virtual DbSet<cbg_b27> cbg_b27 { get; set; }
-        public virtual DbSet<cbg_b28> cbg_b28 { get; set; }
-        public virtual DbSet<cbg_b29> cbg_b29 { get; set; }
-        public virtual DbSet<cbg_b99> cbg_b99 { get; set; }
-        public virtual DbSet<cbg_c02> cbg_c02 { get; set; }
-        public virtual DbSet<cbg_c15> cbg_c15 { get; set; }
-        public virtual DbSet<cbg_c16> cbg_c16 { get; set; }
-        public virtual DbSet<cbg_c17> cbg_c17 { get; set; }
-        public virtual DbSet<cbg_c21> cbg_c21 { get; set; }
-        public virtual DbSet<cbg_c24> cbg_c24 { get; set; }
-        public virtual DbSet<cbg_field_descriptions> cbg_field_descriptions { get; set; }
-        public virtual DbSet<cbg_fips_codes> cbg_fips_codes { get; set; }
-        public virtual DbSet<cbg_geographic_data> cbg_geographic_data { get; set; }
+        public virtual DbSet<cbg_field_description> cbg_field_descriptions { get; set; }
+        public virtual DbSet<cbg_fips_code> cbg_fips_codes { get; set; }
+        public virtual DbSet<cbg_geographic_datum> cbg_geographic_data { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -59,6 +34,10 @@ namespace Statistics.Census
             modelBuilder.Entity<cbg_b01>(entity =>
             {
                 entity.HasKey(e => e.census_block_group);
+
+                entity.ToTable("cbg_b01");
+
+                entity.HasIndex(e => e.State, "IX_cbg_b01_State");
 
                 entity.Property(e => e.B01002Ae1).HasColumnType("DOUBLE");
 
@@ -181,157 +160,17 @@ namespace Statistics.Census
                 entity.Property(e => e.B01002m3).HasColumnType("DOUBLE");
             });
 
-            modelBuilder.Entity<cbg_b02>(entity =>
+            modelBuilder.Entity<cbg_field_description>(entity =>
             {
                 entity.HasNoKey();
             });
 
-            modelBuilder.Entity<cbg_b03>(entity =>
+            modelBuilder.Entity<cbg_fips_code>(entity =>
             {
                 entity.HasNoKey();
             });
 
-            modelBuilder.Entity<cbg_b07>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b08>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b09>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b11>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b12>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b14>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b15>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b16>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b17>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b19>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b20>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b21>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b22>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b23>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b24>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b25>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b27>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b28>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b29>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_b99>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_c02>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_c15>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_c16>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_c17>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_c21>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_c24>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_field_descriptions>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_fips_codes>(entity =>
-            {
-                entity.HasNoKey();
-            });
-
-            modelBuilder.Entity<cbg_geographic_data>(entity =>
+            modelBuilder.Entity<cbg_geographic_datum>(entity =>
             {
                 entity.HasNoKey();
             });

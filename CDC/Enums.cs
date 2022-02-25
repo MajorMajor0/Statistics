@@ -8,6 +8,8 @@ internal enum AgeGroup
 	Age0_17,
 	[Description("Under 1 year")]  
 	Age0_1,
+	[Description("0-4 years")]
+	Age0_4,
 	[Description("1-4 years")]
 	Age1_4,
 	[Description("5-14 years")]

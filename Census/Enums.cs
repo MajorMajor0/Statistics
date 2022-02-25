@@ -5,7 +5,7 @@ namespace Statistics.Census
 	internal enum AgeGroup
 	{
 		[Description("Under 5")] 
-		Age0_5,
+		Age0_4,
 		[Description("5 - 9")]   
 		Age5_9,
 		[Description("10 - 14")] 
@@ -51,7 +51,7 @@ namespace Statistics.Census
 		[Description("85 +")]
 		Age85up,
 		[Description("All")]     
-		Any,
+		All,
 
 		[Description("5 - 14")]
 		Age5_14,

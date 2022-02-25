@@ -18,14 +18,14 @@ internal class MainWindowVM : INotifyPropertyChanged
 {
 	public string Display { get; set; }
 	public List<Command> Commands { get; set; } = new();
-	public IEnumerable<State> States => UnitedStates.States;
+	public static IEnumerable<State> States => UnitedStates.All50States;
 	public State State0 { get; set; }
 	public State State1 { get; set; }
 
 	internal MainWindowVM()
 	{
 		UpdateCDCCmd = new Command(UpdateCorona, "Update CDC", "Update CDC data from database");
-		CoronaBonusCmd = new Command(CoronaBonus, "Corona Bonus", "Do some Corona stuff");
+		CoronaBonusCmd = new Command(DeathNorm, "Death Norm");
 		CompareStatesCmd = new Command(CompareStates, CompareStatesCaneExecute, "Compare States", "Compare two states corona stats");
 
 		Commands.Add(UpdateCDCCmd);
@@ -40,9 +40,10 @@ internal class MainWindowVM : INotifyPropertyChanged
 	{
 		CDC.Corona.Update();
 	}
-	public static async void CoronaBonus()
+	public void DeathNorm()
 	{
-		CDC.Corona.Update();
+		Display = Methods.DeathNorm(UnitedStates.All50States.ToArray());
+		OnPropertyChanged(nameof(Display));
 	}
 
 	public void CompareStates()

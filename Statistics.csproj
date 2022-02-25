@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="CDC\CompiledModel\" />
     <Folder Include="MVVM\" />
   </ItemGroup>
 
