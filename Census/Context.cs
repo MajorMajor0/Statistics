@@ -20,12 +20,14 @@ namespace Statistics.Census
         public virtual DbSet<cbg_field_description> cbg_field_descriptions { get; set; }
         public virtual DbSet<cbg_fips_code> cbg_fips_codes { get; set; }
         public virtual DbSet<cbg_geographic_datum> cbg_geographic_data { get; set; }
+        public virtual DbSet<census_bloc_cd116> census_bloc_cd116s { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite($"DataSource={FileLocations.Census}");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlite("DataSource=C:\\data\\census.db");
             }
         }
 
@@ -173,6 +175,15 @@ namespace Statistics.Census
             modelBuilder.Entity<cbg_geographic_datum>(entity =>
             {
                 entity.HasNoKey();
+            });
+
+            modelBuilder.Entity<census_bloc_cd116>(entity =>
+            {
+                entity.HasKey(e => e.BLOCKID);
+
+                entity.ToTable("census_bloc_cd116");
+
+                entity.HasIndex(e => e.BLOCK_GROUP, "thisIndex");
             });
 
             OnModelCreatingPartial(modelBuilder);

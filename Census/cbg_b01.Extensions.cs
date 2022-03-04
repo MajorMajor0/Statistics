@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -38,15 +40,16 @@ public partial class cbg_b01
 	{
 		Stopwatch watch = Stopwatch.StartNew();
 
-		IEnumerable<cbg_b01> rows;
+		IQueryable<cbg_b01> rows;
 		if (state is null)
 		{
-			rows = context.cbg_b01;
+			rows = context.cbg_b01.AsNoTracking();
 		}
 		else
 		{
 			rows = context
 				.cbg_b01
+				.AsNoTracking()
 				.Where(x => x.State == state.FIPS);
 		}
 

@@ -5,7 +5,11 @@ using Statistics.US;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+
+using YamlDotNet;
+using YamlDotNet.Serialization;
 
 namespace Statistics;
 
@@ -61,8 +65,6 @@ internal class Methods
 		using Census.Context censusContext = new();
 		using CDC.Context cdcContext = new();
 
-		censusContext.cbg_b01.Load();
-
 		List<string> labels = new();
 		List<long>[] pops = { new(), new() };
 		List<long>[] deaths = { new(), new() };
@@ -93,10 +95,10 @@ internal class Methods
 		string s1 = state1.Abbreviation;
 
 		string line = "";
-		for (int i = 0; i < w0 + w1 * 7; i++)
+		for (int i = 0; i < w0 + w1 * 9; i++)
 			line += '-';
 
-		string returner = $"{"Age",-18}{$"{s0} Pop",w1}{$"{s0} Death",w1}{$"{s0} Death/{popNormal / 1000}k",w1}{$"{s1} Pop",w1}{$"{s1} Death",w1}{$"{s1} Death/{popNormal / 1000}k",w1}{$"{s0}/{s1} Per Cap",w1}\n";
+		string returner = $"{"Age",w0}{$"{s0} Pop",w1}{$"{s0} Death",w1}{$"{s0} Death/{popNormal / 1000}k",w1}{$"{s1} Pop",w1}{$"{s1} Death",w1}{$"{s1} Death/{popNormal / 1000}k",w1}{$"{s0}/{s1} Per Cap",w1}\n";
 
 		returner += line;
 
@@ -106,9 +108,9 @@ internal class Methods
 			deathsPC[1].Add(popNormal * deaths[1][i] / pops[1][i]);
 			diff.Add(deathsPC[0][i] / deathsPC[1][i]);
 
-			returner += $"\n{labels[i],-18}{pops[0][i],w1}{deaths[0][i],w1}{deathsPC[0][i],w1:f2}{pops[1][i],w1}{deaths[1][i],w1}{deathsPC[1][i],w1:f2}{diff[i],w1:f2}";
+			returner += $"\n{labels[i],w0}{pops[0][i],w1}{deaths[0][i],w1}{deathsPC[0][i],w1:f2}{pops[1][i],w1}{deaths[1][i],w1}{deathsPC[1][i],w1:f2}{diff[i],w1:f2}";
 
-			if (i == 8)
+			if (i == cdcAges.Count - 2)
 			{
 				returner += '\n' + line;
 			}
@@ -118,7 +120,7 @@ internal class Methods
 		return returner;
 	}
 
-	internal static string DeathNorm(State[] stateArray)
+	internal static string AgeAdjustedNormalDeathRate(State[] stateArray)
 	{
 		List<State> states = new(stateArray);
 
@@ -131,8 +133,6 @@ internal class Methods
 		cdcContext.ChangeTracker.LazyLoadingEnabled = false;
 		cdcContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-		censusContext.cbg_b01.Load();
-		Debug.WriteLine($"Loaded: {watch.Elapsed.TotalSeconds:f1} ");
 		watch.Restart();
 
 		// Null for the entire US first in line.
@@ -181,11 +181,11 @@ internal class Methods
 			}
 		}
 
-		const int w0 = 18;
+		const int w0 = -18;
 		const int w1 = 18;
 
 		string line = "";
-		for (int i = 0; i < w0 + w1 * 3; i++)
+		for (int i = 0; i < Math.Abs(w0) + Math.Abs(w1) * 3; i++)
 			line += '-';
 
 		string returner = $"{"State",w0}{$"Total Deaths",w1}{$"Expected Deaths",w1}{"Death Norm",w1}\n";
@@ -208,5 +208,6 @@ internal class Methods
 		Debug.WriteLine(watch.Elapsed);
 		return returner;
 	}
+
 
 }

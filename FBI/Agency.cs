@@ -12,8 +12,8 @@ namespace Statistics.FBI;
 public class Agency
 {
 	public string Code { get; set; }
-	public US.City City { get; set; }
-	public US.State State { get; set; }
+	//public US.City City { get; set; }
+	//public US.State State { get; set; }
 
 	public string PopulationGroup { get; set; }
 }

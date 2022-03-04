@@ -7,6 +7,7 @@ namespace Statistics.Census
     {
         public string census_block_group { get; set; }
         public long State { get; set; }
+        public long? CongressionalDistrict { get; set; }
         public long B01001e1 { get; set; }
         public long B01001m1 { get; set; }
         public long B01001e2 { get; set; }

@@ -18,31 +18,41 @@ internal class MainWindowVM : INotifyPropertyChanged
 {
 	public string Display { get; set; }
 	public List<Command> Commands { get; set; } = new();
-	public static IEnumerable<State> States => UnitedStates.All50States;
+	public static List<State> States;
 	public State State0 { get; set; }
 	public State State1 { get; set; }
 
-	internal MainWindowVM()
+	public MainWindowVM()
 	{
 		UpdateCDCCmd = new Command(UpdateCorona, "Update CDC", "Update CDC data from database");
-		CoronaBonusCmd = new Command(DeathNorm, "Death Norm");
-		CompareStatesCmd = new Command(CompareStates, CompareStatesCaneExecute, "Compare States", "Compare two states corona stats");
+		CoronaBonusCmd = new Command(AgeAdjustedDeathNorm, "Age Adj. Norm");
+		CompareStatesCmd = new Command(CompareStates, CompareStatesCanExecute, "Compare States", "Compare two states corona stats");
+		LoadCongressionalDistrictsCmd = new Command(LoadCongressionalDistricts, "Bonus");
+		LoadCongressmenCmd = new Command(LoadCongressmen, "Load Congressmen");
 
 		Commands.Add(UpdateCDCCmd);
 		Commands.Add(CoronaBonusCmd);
 		Commands.Add(CompareStatesCmd);
+		Commands.Add(LoadCongressionalDistrictsCmd);
+		Commands.Add(LoadCongressmenCmd);
+
+		using  US.Context context = new();
+		States = context.States.AsNoTracking().ToList();
 	}
 	public Command UpdateCDCCmd { get; set; }
 	public Command CoronaBonusCmd { get; set; }
 	public Command CompareStatesCmd { get; set; }
+	public Command LoadCongressionalDistrictsCmd { get; set; }
+	public Command LoadCongressmenCmd { get; set; }
 
 	public static void UpdateCorona()
 	{
 		CDC.Corona.Update();
 	}
-	public void DeathNorm()
+
+	public void AgeAdjustedDeathNorm()
 	{
-		Display = Methods.DeathNorm(UnitedStates.All50States.ToArray());
+		Display = Methods.AgeAdjustedNormalDeathRate(States.ToArray());
 		OnPropertyChanged(nameof(Display));
 	}
 
@@ -52,7 +62,17 @@ internal class MainWindowVM : INotifyPropertyChanged
 		OnPropertyChanged(nameof(Display));
 	}
 
-	private bool CompareStatesCaneExecute()
+	public static void LoadCongressionalDistricts()
+	{
+		Loaders.CongressionalDistricts();
+	}
+
+	public static void LoadCongressmen()
+	{
+		Loaders.Congressmen(@"C:\data\congress\legislators-historical.yaml");
+		Loaders.Congressmen(@"C:\data\congress\legislators-current.yaml");
+	}
+	private bool CompareStatesCanExecute()
 	{
 		return State0 != null && State1 != null;
 	}

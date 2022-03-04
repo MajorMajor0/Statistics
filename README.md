@@ -27,3 +27,14 @@ To create a database with the right schema, run this code somewhere
 # FBI
 The beginnings of an effort to pull together th NIBRS survey data together. This has not gone very far.
 
+
+# Data Sources
+Table                           Source
+US.CongressionalDistricts       Generated in code
+US.ocid                         https://github.com/opencivicdata/ocd-division-ids
+Census.census_bloc_cd116        https://www.census.gov/geographies/mapping-files/2019/dec/rdo/116-congressional-district-bef.html
+Census.cbg_b01                  SafeGraph census data
+Census.cbg_field_descriptions   SafeGraph census data
+Census.cbg_fips_codes           SafeGraph census data
+Census.cbg_geographic_data      SafeGraph census data
+Cdc.Coronas                     CDC API

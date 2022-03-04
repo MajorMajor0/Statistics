@@ -129,6 +129,7 @@ public class Corona
 
 		var deaths = context
 			.Coronas
+			.AsNoTracking()
 			.Where(x => x.State == stateName)
 			.Where(x => x.AgeGroup == ageGroup.Description())
 			.Where(x => x.StartDate == new DateTime(2020, 01, 01))
@@ -137,10 +138,11 @@ public class Corona
 			.Where(x => x.Sex == "All Sexes")
 			.Sum(x => x.CovidDeaths);
 
-		if(state == US.UnitedStates.NewYork)
+		if(state.Abbreviation == "NY")
 		{
 			deaths += context
 			.Coronas
+			.AsNoTracking()
 			.Where(x => x.State == "New York City")
 			.Where(x => x.AgeGroup == ageGroup.Description())
 			.Where(x => x.StartDate == new DateTime(2020, 01, 01))
